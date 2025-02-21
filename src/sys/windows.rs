@@ -735,10 +735,14 @@ pub(crate) fn set_tcp_keepalive(socket: Socket, keepalive: &TcpKeepalive) -> io:
         keepaliveinterval: into_ms(keepalive.interval),
     };
 
-
     if let Some(retries) = keepalive.retries {
         unsafe {
-            setsockopt(socket, WinSock::IPPROTO_TCP, WinSock::TCP_KEEPCNT, retries as c_int)?
+            setsockopt(
+                socket,
+                WinSock::IPPROTO_TCP,
+                WinSock::TCP_KEEPCNT,
+                retries as c_int,
+            )?
         }
     }
     let mut out = 0;
